@@ -733,17 +733,30 @@ function updateAudioParameters() {
 freqAInput.addEventListener('input', () => {
   const freq = sliderToFreq(parseFloat(freqAInput.value));
   numFreqAInput.value = freq.toFixed(2);
+
+  // 基準音の変化に追従して調律音側の基準も連動
+  exactBaseB = freq;
+  freqBInput.value = freqToSlider(freq);
+
   updateAudioParameters();
 });
 
-numFreqAInput.addEventListener('change', () => {
+
+nnumFreqAInput.addEventListener('change', () => {
   let val = parseFloat(numFreqAInput.value);
   if (isNaN(val)) val = 440.0;
   val = Math.max(minFreq, Math.min(maxFreq, val));
   numFreqAInput.value = val.toFixed(2);
   freqAInput.value = freqToSlider(val);
+
+  // 基準音の数値変更に追従させ、セントズレをリセット
+  exactBaseB = val;
+  freqBInput.value = freqToSlider(val);
+  centB = 0.0;
+
   updateAudioParameters();
 });
+
 
 freqBInput.addEventListener('input', () => {
   exactBaseB = sliderToFreq(parseFloat(freqBInput.value));
@@ -768,13 +781,15 @@ function applyBaseFreqChange(newFreq) {
   const clamped = Math.max(minFreq, Math.min(maxFreq, newFreq));
   numFreqAInput.value = clamped.toFixed(2);
   freqAInput.value = freqToSlider(clamped);
-  
+
+  // 各種ボタンによる基準音変更に追従させ、調律音側も連動
   exactBaseB = clamped;
   freqBInput.value = freqToSlider(clamped);
   centB = 0.0;
-  
+
   updateAudioParameters();
 }
+
 
 function adjustSemitone(deltaCent) {
   const currentBase = parseFloat(numFreqAInput.value);
