@@ -742,16 +742,21 @@ freqAInput.addEventListener('input', () => {
 });
 
 
+// 2. 基準音の「数値入力時のみ」、調律音の周波数は固定してオフセット（cent）を再計算
 numFreqAInput.addEventListener('input', () => {
   let val = parseFloat(numFreqAInput.value);
-  if (isNaN(val)) return;
+  if (isNaN(val)) return; // キーボード入力中の空欄などはそのまま許容
   
   val = Math.max(minFreq, Math.min(maxFreq, val));
-  freqAInput.value = freqToSlider(val);
-  
-  //exactBaseB = val; // ← ここで調律音の基準まで変えてしまっていた
-  freqBInput.value = freqToSlider(val);
+  freqAInput.value = freqToSlider(val); // スライダーの位置だけは同期させる
 
+  // 現在の調律音の実際の周波数（ピッチ）を固定で取得
+  const currentActualB = getActualFreq(exactBaseB, centB);
+
+  // 入力された新しい基準音（val）と、固定された調律音の周波数からオフセット値（cent）を再計算
+  centB = 1200 * Math.log2(currentActualB / val);
+
+  // exactBaseB（調律音の基準）は書き換えないため、調律音の実際のピッチは変わらない
   updateAudioParameters();
 });
 
