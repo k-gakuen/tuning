@@ -20,9 +20,9 @@
     }
     /* タイトルの文字サイズを3pt（約4px）大きく */
     h1 {
-      font-size: calc(1rem + 4px);
+      font-size: calc(1rem + 6px);
       text-align: center;
-      margin: 2px 0 6px 0;
+      margin: 8px 0 6px 0;
     }
 
     .app-layout {
@@ -72,7 +72,7 @@
     /* 右上部の横並びコントロール用グリッド */
     .top-action-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.2fr 0.8fr;
       gap: 6px;
       margin-bottom: 8px;
     }
@@ -117,7 +117,7 @@
       color: #007aff;
       touch-action: manipulation;
     }
-    .btn-sub:active, .btn-sub.pressing {
+    .ban-sub:active, .btn-sub.pressing {
       background-color: #007aff;
       color: #ffffff;
       border-color: #007aff;
@@ -299,7 +299,7 @@
         <!-- 基準音 -->
         <div class="control-group">
           <div class="control-header">
-            <span>基準音 <span id="noteNameDisplay" style="font-size: 0.75rem; color: #007aff; font-weight: normal; margin-left: 2px;">(A49)</span></span>
+            <span>基準音(reference notes)<span id="noteNameDisplay" style="font-size: 0.75rem; color: #007aff; font-weight: normal; margin-left: 2px;">(A49)</span></span>
             <div class="freq-input-group">
               <input type="number" id="numFreqA" class="freq-number-input" value="440.00" step="0.01" min="27.5" max="4186.009">
               <span>Hz</span>
@@ -317,7 +317,7 @@
           </div>
 
           <details>
-            <summary>基準音 倍音ミキサー (H1〜H12)</summary>
+            <summary>基準音 倍音ミキサー'overtone mixer'(H1-H12)</summary>
             <div class="harmonics-grid" id="harmonicsA"></div>
           </details>
         </div>
@@ -325,7 +325,7 @@
 
       <!-- 打鍵・演奏コントロールエリア（ラベル表記削除） -->
       <div class="card">
-        <button id="modeBtn" class="btn-mode" onclick="togglePianoMode()">ピアノ音モード OFF (持続音)</button>
+        <button id="modeBtn" class="btn-mode" onclick="togglePianoMode()">ピアノ音モード OFF (sustained sound)</button>
         <div style="margin-top: 4px;">
           <button id="toggleBtn" class="btn-main">▶</button>
         </div>
@@ -338,31 +338,31 @@
       <div class="card tuning-card-container">
         <!-- 基音間の唸り周波数 -->
         <div class="info-box">
-          <div class="label-sm">基音間の唸り周波数</div>
+          <div class="label-sm">基音間の唸り周波数(beat frequency)</div>
           <div class="info-val"><span id="beatFreq">0.00</span> Hz</div>
         </div>
 
         <div class="top-action-grid">
-          <button id="blindBtn" class="btn-blind" onclick="toggleBlindMode()">ブラインドモード OFF</button>
-          <button class="btn-sub action-feedback" onclick="setRandomDetune()">狂わせる</button>
+          <button id="blindBtn" class="btn-blind" onclick="toggleBlindMode()">ブラインドモード(blind mode) OFF</button>
+          <button class="btn-sub action-feedback" onclick="setRandomDetune()">狂わせる(detune)</button>
         </div>
 
         <div class="control-group">
           <div class="control-header">
-            <span>調律音</span>
+            <span>調律音(tuning notes)</span>
             <span class="val-display"><span id="valB">440.00</span> Hz</span>
           </div>
-          <div class="cent-display">オフセット: <span id="centBDisplay">0.0</span> cent</div>
+          <div class="cent-display">オフセット(offset): <span id="centBDisplay">0.0</span> cent</div>
 
           <input type="range" id="freqB" min="0" max="1000" step="0.1" value="500" style="display: none;">
           
           <div class="fine-grid-hz" style="margin-top: 6px;">
-            <button class="btn-fine hold-btn" data-target="B" data-type="hz" data-delta="-0.01">◀ 下げる</button>
-            <button class="btn-fine hold-btn" data-target="B" data-type="hz" data-delta="0.01">上げる ▶</button>
+            <button class="btn-fine hold-btn" data-target="B" data-type="hz" data-delta="-0.01">◀ 下げる(lower)</button>
+            <button class="btn-fine hold-btn" data-target="B" data-type="hz" data-delta="0.01">(raise)上げる ▶</button>
           </div>
 
           <details>
-            <summary>調律音 倍音ミキサー (H1〜H12)</summary>
+            <summary>調律音 倍音ミキサー'overtone mixer'(H1-H12)</summary>
             <div class="harmonics-grid" id="harmonicsB"></div>
           </details>
         </div>
@@ -371,11 +371,11 @@
       <!-- リアルタイム合成波形カード（トグル/折り畳み式） -->
       <div class="card wave-card-container" id="waveCard">
         <details>
-          <summary>リアルタイム合成波形</summary>
+          <summary>リアルタイム合成波形(real-time synthetic waveform)</summary>
           <div style="margin-top: 6px;">
             <canvas id="canvas"></canvas>
             <div id="blindMask" class="blind-canvas-mask" style="display: none;">
-              [ ブラインドモード表示中 ]
+              [ ブラインドモード表示中(blind mode-ON) ]
             </div>
           </div>
         </details>
@@ -670,7 +670,7 @@ function updateToggleBtnText() {
 
 function togglePianoMode() {
   isPianoMode = !isPianoMode;
-  modeBtn.textContent = isPianoMode ? "ピアノ音モード ON (打鍵・減衰)" : "ピアノ音モード OFF (持続音)";
+  modeBtn.textContent = isPianoMode ? "ピアノ音モード ON (decay sound)" : "ピアノ音モード OFF (sustained sound)";
   modeBtn.classList.toggle('active', isPianoMode);
   stopSoundNodes();
   isPlaying = false;
@@ -679,7 +679,7 @@ function togglePianoMode() {
 
 function toggleBlindMode() {
   isBlindMode = !isBlindMode;
-  blindBtn.textContent = isBlindMode ? "ブラインドモード ON" : "ブラインドモード OFF";
+  blindBtn.textContent = isBlindMode ? "ブラインドモード(blind mode) ON" : "ブラインドモード(blind mode) OFF";
   blindBtn.classList.toggle('active', isBlindMode);
   
   if (isBlindMode) {
