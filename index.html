@@ -751,8 +751,8 @@ numFreqAInput.addEventListener('input', () => {
   freqAInput.value = freqToSlider(val);
   
   // 調律音の基準も追従させ、セントズレをリセットして唸り・オフセットを再計算
-  //exactBaseB = val;
-  //freqBInput.value = freqToSlider(val);
+  exactBaseB = val;
+  freqBInput.value = freqToSlider(val);
   //centB = 0.0;
 
   updateAudioParameters(); // ここで唸り周波数や表示がすべて再計算される
