@@ -754,7 +754,7 @@ numFreqAInput.addEventListener('input', () => {
   const actualB = getActualFreq(exactBaseB, centB); // 調律音の実際の周波数はそのまま維持
   
   // 新しい基準音に対する調律音の新しいセントオフセットを逆算
-  centB = 1200 * Math.log2(actualB / val);
+  //centB = 1200 * Math.log2(actualB / val);
   
   // 画面表示とオーディオパラメータを更新（唸り周波数も自動で再計算される）
   updateAudioParameters();
