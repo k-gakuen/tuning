@@ -343,8 +343,8 @@
         </div>
 
         <div class="top-action-grid">
-          <button id="blindBtn" class="btn-blind" onclick="toggleBlindMode()">ブラインドモード(blind mode) OFF</button>
-          <button class="btn-sub action-feedback" onclick="setRandomDetune()">狂わせる(detune)</button>
+          <button id="blindBtn" class="btn-blind" onclick="toggleBlindMode()">ブラインドモード (blind mode) OFF</button>
+          <button class="btn-sub action-feedback" onclick="setRandomDetune()">狂わせる (detune)</button>
         </div>
 
         <div class="control-group">
@@ -357,8 +357,8 @@
           <input type="range" id="freqB" min="0" max="1000" step="0.1" value="500" style="display: none;">
           
           <div class="fine-grid-hz" style="margin-top: 6px;">
-            <button class="btn-fine hold-btn" data-target="B" data-type="hz" data-delta="-0.01">◀ 下げる(lower)</button>
-            <button class="btn-fine hold-btn" data-target="B" data-type="hz" data-delta="0.01">(raise)上げる ▶</button>
+            <button class="btn-fine hold-btn" data-target="B" data-type="hz" data-delta="-0.01">◀ 下げる (lower)</button>
+            <button class="btn-fine hold-btn" data-target="B" data-type="hz" data-delta="0.01">(raise) 上げる ▶</button>
           </div>
 
           <details>
@@ -679,7 +679,7 @@ function togglePianoMode() {
 
 function toggleBlindMode() {
   isBlindMode = !isBlindMode;
-  blindBtn.textContent = isBlindMode ? "ブラインドモード(blind mode) ON" : "ブラインドモード(blind mode) OFF";
+  blindBtn.textContent = isBlindMode ? "ブラインドモード (blind mode) ON" : "ブラインドモード (blind mode) OFF";
   blindBtn.classList.toggle('active', isBlindMode);
   
   if (isBlindMode) {
