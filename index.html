@@ -742,19 +742,20 @@ freqAInput.addEventListener('input', () => {
 });
 
 
-nnumFreqAInput.addEventListener('change', () => {
+// キーボードでタイピングした瞬間に即座に連動・再計算させる
+numFreqAInput.addEventListener('input', () => {
   let val = parseFloat(numFreqAInput.value);
-  if (isNaN(val)) val = 440.0;
+  if (isNaN(val)) return; // タイピング中の空欄などは一旦そのまま許容
+  
   val = Math.max(minFreq, Math.min(maxFreq, val));
-  numFreqAInput.value = val.toFixed(2);
   freqAInput.value = freqToSlider(val);
-
-  // 基準音の数値変更に追従させ、セントズレをリセット
+  
+  // 調律音の基準も追従させ、セントズレをリセットして唸り・オフセットを再計算
   exactBaseB = val;
   freqBInput.value = freqToSlider(val);
   centB = 0.0;
 
-  updateAudioParameters();
+  updateAudioParameters(); // ここで唸り周波数や表示がすべて再計算される
 });
 
 
