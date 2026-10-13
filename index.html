@@ -744,19 +744,19 @@ freqAInput.addEventListener('input', () => {
 
 numFreqAInput.addEventListener('input', () => {
   let val = parseFloat(numFreqAInput.value);
-  if (isNaN(val)) return;
+  if (isNaN(val)) return; // タイピング中の空欄などはそのまま許容
   
   val = Math.max(minFreq, Math.min(maxFreq, val));
-  freqAInput.value = freqToSlider(val);
-  
-  // 基準音（A）が変わったため、現在の調律音（B）との周波数差から
-  // 「現在のオフセット（centB）」と「唸り周波数」を自動的に再計算する
-  const actualB = getActualFreq(exactBaseB, centB); // 調律音の実際の周波数はそのまま維持
-  
-  // 新しい基準音に対する調律音の新しいセントオフセットを逆算
-  //centB = 1200 * Math.log2(actualB / val);
-  
-  // 画面表示とオーディオパラメータを更新（唸り周波数も自動で再計算される）
+  freqAInput.value = freqToSlider(val); // スライダーの位置も同期
+
+  // 1. 変更前の「調律音の実際の周波数（実際のピッチ）」を現在値から保持しておく
+  const currentActualB = getActualFreq(exactBaseB, centB);
+
+  // 2. 新しい基準音（val）に対して、調律音の実際の周波数がどういうオフセット（cent）になるかを再計算
+  centB = 1200 * Math.log2(currentActualB / val);
+
+  // ※ 調律音の基準ベース自体（exactBaseB）は維持しつつ、
+  //    新たな基準音（val）と調律音（currentActualB）から唸り周波数や表示がすべて再計算される
   updateAudioParameters();
 });
 
